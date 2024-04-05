@@ -1,0 +1,63 @@
+.App {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+
+.contactList {
+    margin-top: 20px;
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.contact:last-child {
+    margin-bottom: 0;
+}
+
+.contact input {
+    max-width: 300px;
+}
+
+.contact h3 {
+    margin: 0 0 5px;
+}
+
+.contact p {
+    margin: 0;
+}
+
+.contact button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.contact button:hover {
+    text-decoration: underline;
+}
+
+.contactForm {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.contactForm input,
+.contactForm button {
+    margin-bottom: 10px;
+}
+
+.contactForm button {
+    align-self: flex-end;
+}

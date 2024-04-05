@@ -18,7 +18,7 @@ const ContactList = () => {
     }
 
     const editContact = (contact: ContactType) => {
-        // dispatch(contactsActions.editContact({editContact: contact}))
+        // dispatch(contactsActions.editContactHandler({editContactHandler: contact}))
     }
 
     const contacts =  useSelector(selectorContacts)

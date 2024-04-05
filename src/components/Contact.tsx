@@ -26,7 +26,7 @@ const [editMode, setEditMode] = useState(false)
 
     return (
         editMode
-            ? <ContactForm id={id} editContact={onChangeHandler} editMode={editMode} changeEditMode={(editMode) => setEditMode(editMode)}/>
+            ? <ContactForm editContact={{name, phoneNumber, email, id}} editContactHandler={onChangeHandler} editMode={editMode} changeEditMode={(editMode) => setEditMode(editMode)}/>
             : <div className={s.contact}>
                 <p>{name}</p>
                 <p>{phoneNumber}</p>

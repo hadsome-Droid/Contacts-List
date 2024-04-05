@@ -6,10 +6,10 @@ import {contactsActions, contactsThunk, ContactType} from "../app/app-reducer";
 import {SubmitHandler, useForm} from "react-hook-form";
 
 type PropsType = {
-    id?: string
+    editContact?: ContactType
     editMode?: boolean
     changeEditMode?: (editMode: boolean) => void
-    editContact?: (data: Omit<ContactType, 'id'>) => void
+    editContactHandler?: (data: Omit<ContactType, 'id'>) => void
 }
 
 type Inputs = {
@@ -18,34 +18,42 @@ type Inputs = {
     email: string
 }
 
-export const ContactForm: React.FC<PropsType> = ({changeEditMode, id, editMode, editContact}) => {
+export const ContactForm: React.FC<PropsType> = ({changeEditMode, editMode, editContactHandler, editContact}) => {
+
+    const dispatch = useAppDispatch()
+
     const {
         register,
         handleSubmit,
         watch,
         formState: {errors, isSubmitSuccessful},
-        reset
-    } = useForm<Inputs>()
+        reset,
+        setValue
+    } = useForm<Inputs>({
+        defaultValues: {
+            name: editContact?.name || '',
+            phoneNumber: editContact?.phoneNumber || '',
+            email: editContact?.email || ''
+        }
+    })
 
     useEffect(() => {
-        if (isSubmitSuccessful) {
-            reset()
+        if (editContact && editMode) {
+            setValue('name', editContact.name);
+            setValue('phoneNumber', editContact.phoneNumber);
+            setValue('email', editContact.email);
+        } else if (isSubmitSuccessful) {
+            reset();
         }
-    }, [isSubmitSuccessful]);
+    }, [editContact, editMode, isSubmitSuccessful]);
 
-    const dispatch = useAppDispatch()
-
-    const onClickHandler = useCallback(() => {
-        const newContact = {name: 'Test', phoneNumber: '8999999999', email: 'Test99@mail.ru', id: v1()}
-        // dispatch(contactsActions.addContact({newContact}))
-    }, [])
 
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         if (editMode) {
-            if (editContact) editContact(data)
+            if (editContactHandler) editContactHandler(data)
             if (changeEditMode) changeEditMode(!editMode)
-            let resID = id ? id : ''
+            let resID = editContact?.id ? editContact.id : ''
             let updateDate = {...data, id: resID}
             dispatch(contactsThunk.updateContact({updatedContact: updateDate}))
             console.log(data, '++')
@@ -56,7 +64,6 @@ export const ContactForm: React.FC<PropsType> = ({changeEditMode, id, editMode, 
         }
 
 
-
     }
 
 
@@ -64,7 +71,7 @@ export const ContactForm: React.FC<PropsType> = ({changeEditMode, id, editMode, 
         /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
         <form onSubmit={handleSubmit(onSubmit)} className={s.contactForm}>
             {/* register your input into the hook by invoking the "register" function */}
-            <input {...register("name")} />
+            <input  {...register("name")} />
 
             {/* include validation with required or other standard HTML validation rules */}
             <input {...register("phoneNumber", {required: false})} />

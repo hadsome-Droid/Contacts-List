@@ -39,10 +39,10 @@ const slice = createSlice(
             //         state.contacts.splice(index, 1)
             //     }
             // },
-            editContact: (state, action: PayloadAction<{ editContact: ContactType }>) => {
-                const index = state.contacts.findIndex(el => el.id === action.payload.editContact.id)
-                if (index !== -1) state.contacts[index] = action.payload.editContact
-            }
+            // editContact: (state, action: PayloadAction<{ editContact: ContactType }>) => {
+            //     const index = state.contacts.findIndex(el => el.id === action.payload.editContact.id)
+            //     if (index !== -1) state.contacts[index] = action.payload.editContact
+            // }
         },
         extraReducers: builder => {
             builder
@@ -100,7 +100,7 @@ const deleteContact = createAppAsyncThunk<{ id: string }, { id: string }>(
     `${slice.name}/deleteContact`,
     async (arg, thunkAPI) => {
         const res = await contactsApi.deleteContact(arg.id)
-        console.log(res.data, 'deletcotact')
+
         return res.data
     }
 )
@@ -109,6 +109,7 @@ const updateContact = createAppAsyncThunk<{updatedContact: ContactType}, {update
     `${slice.name}/updateContact`,
     async (arg, thunkAPI) => {
         const res = await contactsApi.updateContact(arg.updatedContact.id, arg.updatedContact)
+
         return {updatedContact: res.data}
     }
 )
